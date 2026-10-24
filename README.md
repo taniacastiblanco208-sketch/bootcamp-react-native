@@ -3,9 +3,9 @@
 App móvil de una tienda de muebles, construida semana a semana (bootcamp React Native).
 
 ## Requisitos
-- Node `>=20.19.4`
+- Node >=22.13.0
 - pnpm **10.28.0** (fijo; con `corepack enable` se activa solo por `packageManager`)
-- Expo Go **57** en el celular
+- Expo Go 58 en el celular
 
 ## Ejecutar
 ```bash
