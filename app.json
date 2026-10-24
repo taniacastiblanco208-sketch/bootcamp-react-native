@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Tienda de Muebles",
+    "slug": "tienda-de-muebles",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.tiendamuebles.app"
+    },
+    "android": {
+      "package": "com.tiendamuebles.app"
+    }
+  }
+}
