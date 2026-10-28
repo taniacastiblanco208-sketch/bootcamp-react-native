@@ -1,7 +1,14 @@
-// Componente raíz: por ahora solo muestra la pantalla principal.
+// Componente raíz: NavigationContainer guarda el estado de la navegación.
 import React from 'react';
-import { HomeScreen } from './src/screens/HomeScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import { RootNavigator } from './src/navigation/RootNavigator';
 
 export default function App(): React.JSX.Element {
-  return <HomeScreen />;
+  return (
+    <NavigationContainer>
+      <StatusBar style="light" />
+      <RootNavigator />
+    </NavigationContainer>
+  );
 }
