@@ -7,20 +7,25 @@ import { Mueble } from '../types';
 // Props: el mueble que se va a mostrar
 interface ItemCardProps {
   mueble: Mueble;
+  onPress?: () => void; // opcional: qué hacer al tocar la tarjeta
 }
 
 // Convierte 1890000 en "$ 1.890.000"
 const formatearPrecio = (valor: number): string =>
   `$ ${valor.toLocaleString('es-CO')}`;
 
-export function ItemCard({ mueble }: ItemCardProps): React.JSX.Element {
+export function ItemCard({ mueble, onPress }: ItemCardProps): React.JSX.Element {
   // Acción del botón: por ahora solo muestra un aviso
   const agregar = (): void => {
     Alert.alert('Carrito', `Agregaste: ${mueble.nombre}`);
   };
 
   return (
-    <View style={styles.card}>
+    // Toda la tarjeta es tocable (lleva al detalle) y baja un poco de opacidad al presionar
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [styles.card, pressed && onPress && styles.cardPresionada]}
+    >
       {/* Foto del mueble */}
       <Image source={{ uri: mueble.imagen }} style={styles.imagen} />
 
@@ -53,7 +58,7 @@ export function ItemCard({ mueble }: ItemCardProps): React.JSX.Element {
           </Pressable>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -67,6 +72,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
+  },
+  cardPresionada: {
+    opacity: 0.9,
   },
   imagen: {
     width: '100%',

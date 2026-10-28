@@ -14,6 +14,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ItemCard } from '../components/ItemCard';
 import { MUEBLES } from '../data/mockData';
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
+import { HomeListProps } from '../navigation/types';
 import { Mueble } from '../types';
 
 // Quita tildes y pasa a minúsculas: "Sofá" y "sofa" se consideran iguales
@@ -31,7 +32,8 @@ function Separador(): React.JSX.Element {
   return <View style={styles.separador} />;
 }
 
-export function HomeScreen(): React.JSX.Element {
+// navigation viene del stack y sirve para ir al detalle
+export function HomeScreen({ navigation }: HomeListProps): React.JSX.Element {
   // Texto que la persona escribe en el buscador
   const [busqueda, setBusqueda] = useState<string>('');
 
@@ -49,9 +51,22 @@ export function HomeScreen(): React.JSX.Element {
   }, [busqueda]);
 
   // Cómo se dibuja cada fila. useCallback evita crearla de nuevo en cada render.
+  // Al tocar una tarjeta, vamos al detalle y le enviamos los datos del mueble.
   const renderItem = useCallback<ListRenderItem<Mueble>>(
-    ({ item }) => <ItemCard mueble={item} />,
-    []
+    ({ item }) => (
+      <ItemCard
+        mueble={item}
+        onPress={() =>
+          navigation.navigate('HomeDetail', {
+            id: item.id,
+            name: item.nombre,
+            categoria: item.categoria,
+            precio: item.precio,
+          })
+        }
+      />
+    ),
+    [navigation]
   );
 
   return (

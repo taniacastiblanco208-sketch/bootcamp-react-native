@@ -137,3 +137,10 @@ export const MUEBLES: Mueble[] = [
     enStock: true,
   },
 ];
+
+// Busca un mueble por su id (devuelve undefined si no existe)
+export const buscarMueble = (id: string): Mueble | undefined =>
+  MUEBLES.find((m) => m.id === id);
+
+// ids de los muebles favoritos (fijos por ahora; en la semana 4 serán dinámicos)
+export const FAVORITOS_IDS: string[] = ['1', '4', '11'];
