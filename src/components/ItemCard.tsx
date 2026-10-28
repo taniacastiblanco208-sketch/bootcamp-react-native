@@ -1,6 +1,7 @@
 // Tarjeta que muestra un mueble del catálogo.
 import React from 'react';
 import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 import { Mueble } from '../types';
 
 // Props: el mueble que se va a mostrar
@@ -24,8 +25,11 @@ export function ItemCard({ mueble }: ItemCardProps): React.JSX.Element {
       <Image source={{ uri: mueble.imagen }} style={styles.imagen} />
 
       <View style={styles.contenido}>
-        {/* Categoría (texto pequeño) y nombre (texto grande) */}
-        <Text style={styles.categoria}>{mueble.categoria.toUpperCase()}</Text>
+        {/* Etiqueta (badge) con la categoría */}
+        <View style={styles.badge}>
+          <Text style={styles.badgeTexto}>{mueble.categoria.toUpperCase()}</Text>
+        </View>
+
         <Text style={styles.nombre}>{mueble.nombre}</Text>
         <Text style={styles.material}>{mueble.material}</Text>
 
@@ -33,7 +37,7 @@ export function ItemCard({ mueble }: ItemCardProps): React.JSX.Element {
         <View style={styles.fila}>
           <Text style={styles.precio}>{formatearPrecio(mueble.precio)}</Text>
 
-          {/* Pressable: cambia de color mientras se presiona (feedback) */}
+          {/* Pressable: cambia de color mientras se presiona */}
           <Pressable
             onPress={agregar}
             disabled={!mueble.enStock}
@@ -55,9 +59,8 @@ export function ItemCard({ mueble }: ItemCardProps): React.JSX.Element {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    marginBottom: 16,
+    backgroundColor: COLORS.surface,
+    borderRadius: RADIUS.md,
     overflow: 'hidden', // recorta la imagen con las esquinas redondeadas
     elevation: 3, // sombra en Android
     shadowColor: '#000', // sombra en iOS
@@ -70,50 +73,57 @@ const styles = StyleSheet.create({
     height: 180,
   },
   contenido: {
-    padding: 16,
+    padding: SPACING.base,
   },
-  categoria: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#8D6E63',
+  badge: {
+    alignSelf: 'flex-start', // la etiqueta solo ocupa lo que necesita
+    backgroundColor: COLORS.accentSoft,
+    paddingHorizontal: SPACING.sm,
+    paddingVertical: SPACING.xs,
+    borderRadius: RADIUS.full,
+  },
+  badgeTexto: {
+    fontSize: TYPOGRAPHY.size.xs,
+    fontWeight: TYPOGRAPHY.weight.semibold,
+    color: COLORS.category,
     letterSpacing: 1,
   },
   nombre: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#3E2723',
-    marginTop: 4,
+    fontSize: TYPOGRAPHY.size.lg,
+    fontWeight: TYPOGRAPHY.weight.bold,
+    color: COLORS.textPrimary,
+    marginTop: SPACING.sm,
   },
   material: {
-    fontSize: 14,
-    color: '#6D6D6D',
+    fontSize: TYPOGRAPHY.size.sm,
+    color: COLORS.textSecondary,
     marginTop: 2,
   },
   fila: {
     flexDirection: 'row', // elementos en horizontal
     justifyContent: 'space-between', // uno a cada lado
     alignItems: 'center', // centrados verticalmente
-    marginTop: 12,
+    marginTop: SPACING.md,
   },
   precio: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#3E2723',
+    fontSize: TYPOGRAPHY.size.md,
+    fontWeight: TYPOGRAPHY.weight.bold,
+    color: COLORS.textPrimary,
   },
   boton: {
-    backgroundColor: '#6D4C41',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
+    backgroundColor: COLORS.accent,
+    paddingHorizontal: SPACING.lg,
+    paddingVertical: SPACING.sm + 2,
+    borderRadius: RADIUS.sm,
   },
   botonPresionado: {
-    backgroundColor: '#4E342E', // más oscuro al presionar
+    backgroundColor: COLORS.accentPressed, // más oscuro al presionar
   },
   botonAgotado: {
-    backgroundColor: '#BDBDBD',
+    backgroundColor: COLORS.disabled,
   },
   botonTexto: {
-    color: '#FFFFFF',
-    fontWeight: '600',
+    color: COLORS.textLight,
+    fontWeight: TYPOGRAPHY.weight.semibold,
   },
 });
