@@ -10,6 +10,7 @@ App móvil de una tienda de muebles, construida semana a semana (bootcamp React 
 ## Ejecutar
 ```bash
 corepack enable
+cd starter        # la app vive en la carpeta starter/
 pnpm install
 pnpm start        # escanea el QR con Expo Go
 pnpm typecheck
@@ -23,3 +24,4 @@ pnpm typecheck
 | --- | --- |
 | week-01 | Core Components y Flexbox: catálogo de tarjetas |
 | week-02 | Listas, Inputs y Estilos: FlatList, búsqueda en vivo y tema |
+| week-03 | React Navigation 7: pestañas, stack anidado, detalle con params y favoritos |
