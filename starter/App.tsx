@@ -1,14 +1,19 @@
-// Componente raíz: NavigationContainer guarda el estado de la navegación.
+// Componente raíz de la app.
+// SafeAreaProvider calcula las zonas seguras (notch, barra de estado).
+// NavigationContainer guarda el estado de la navegación.
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from './src/navigation/RootNavigator';
 
 export default function App(): React.JSX.Element {
   return (
-    <NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
       <StatusBar style="light" />
-      <RootNavigator />
-    </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
