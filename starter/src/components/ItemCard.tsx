@@ -1,13 +1,15 @@
 // Tarjeta que muestra un mueble del catálogo.
+// Tiene un botón "Guardar" / "Quitar" conectado al store.
 import React from 'react';
-import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSavedStore } from '../stores/savedStore';
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 import { Mueble } from '../types';
 
-// Props: el mueble que se va a mostrar
+// Props: el mueble y, opcionalmente, qué hacer al tocar la tarjeta
 interface ItemCardProps {
   mueble: Mueble;
-  onPress?: () => void; // opcional: qué hacer al tocar la tarjeta
+  onPress?: () => void;
 }
 
 // Convierte 1890000 en "$ 1.890.000"
@@ -15,13 +17,25 @@ const formatearPrecio = (valor: number): string =>
   `$ ${valor.toLocaleString('es-CO')}`;
 
 export function ItemCard({ mueble, onPress }: ItemCardProps): React.JSX.Element {
-  // Acción del botón: por ahora solo muestra un aviso
-  const agregar = (): void => {
-    Alert.alert('Carrito', `Agregaste: ${mueble.nombre}`);
+  // Selectores: cada uno lee SOLO lo que necesita del store.
+  // Así la tarjeta se redibuja únicamente cuando cambia su propio estado.
+  const guardado = useSavedStore((state) =>
+    state.items.some((m) => m.id === mueble.id)
+  );
+  const addItem = useSavedStore((state) => state.addItem);
+  const removeItem = useSavedStore((state) => state.removeItem);
+
+  // Si ya está guardado lo quita; si no, lo guarda
+  const alternarGuardado = (): void => {
+    if (guardado) {
+      removeItem(mueble.id);
+    } else {
+      addItem(mueble);
+    }
   };
 
   return (
-    // Toda la tarjeta es tocable (lleva al detalle) y baja un poco de opacidad al presionar
+    // Toda la tarjeta es tocable (lleva al detalle)
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [styles.card, pressed && onPress && styles.cardPresionada]}
@@ -40,20 +54,22 @@ export function ItemCard({ mueble, onPress }: ItemCardProps): React.JSX.Element 
 
         {/* Precio a la izquierda, botón a la derecha */}
         <View style={styles.fila}>
-          <Text style={styles.precio}>{formatearPrecio(mueble.precio)}</Text>
+          <View>
+            <Text style={styles.precio}>{formatearPrecio(mueble.precio)}</Text>
+            {!mueble.enStock && <Text style={styles.agotado}>Agotado</Text>}
+          </View>
 
           {/* Pressable: cambia de color mientras se presiona */}
           <Pressable
-            onPress={agregar}
-            disabled={!mueble.enStock}
+            onPress={alternarGuardado}
             style={({ pressed }) => [
               styles.boton,
+              guardado && styles.botonGuardado,
               pressed && styles.botonPresionado,
-              !mueble.enStock && styles.botonAgotado,
             ]}
           >
-            <Text style={styles.botonTexto}>
-              {mueble.enStock ? 'Agregar' : 'Agotado'}
+            <Text style={[styles.botonTexto, guardado && styles.botonTextoGuardado]}>
+              {guardado ? 'Quitar' : 'Guardar'}
             </Text>
           </Pressable>
         </View>
@@ -118,20 +134,28 @@ const styles = StyleSheet.create({
     fontWeight: TYPOGRAPHY.weight.bold,
     color: COLORS.textPrimary,
   },
+  agotado: {
+    fontSize: TYPOGRAPHY.size.xs,
+    fontWeight: TYPOGRAPHY.weight.semibold,
+    color: COLORS.error,
+  },
   boton: {
     backgroundColor: COLORS.accent,
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.sm + 2,
     borderRadius: RADIUS.sm,
   },
-  botonPresionado: {
-    backgroundColor: COLORS.accentPressed, // más oscuro al presionar
+  botonGuardado: {
+    backgroundColor: COLORS.accentSoft, // cuando ya está guardado, se ve suave
   },
-  botonAgotado: {
-    backgroundColor: COLORS.disabled,
+  botonPresionado: {
+    opacity: 0.8, // baja un poco al presionar
   },
   botonTexto: {
     color: COLORS.textLight,
     fontWeight: TYPOGRAPHY.weight.semibold,
+  },
+  botonTextoGuardado: {
+    color: COLORS.accent,
   },
 });
