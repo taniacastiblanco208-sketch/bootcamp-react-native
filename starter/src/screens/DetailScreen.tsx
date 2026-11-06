@@ -1,9 +1,10 @@
 // Detalle de un mueble. Los datos llegan por params desde la lista.
 import React from 'react';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { buscarMueble } from '../data/mockData';
 import { HomeStackParamList } from '../navigation/types';
+import { useSavedStore } from '../stores/savedStore';
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 
 // Convierte 1890000 en "$ 1.890.000"
@@ -16,6 +17,13 @@ export function DetailScreen(): React.JSX.Element {
 
   // Con el id buscamos el resto de datos (foto, material, stock)
   const mueble = buscarMueble(params.id);
+
+  // Lee del store si este mueble está guardado, y trae las acciones
+  const guardado = useSavedStore((state) =>
+    state.items.some((m) => m.id === params.id)
+  );
+  const addItem = useSavedStore((state) => state.addItem);
+  const removeItem = useSavedStore((state) => state.removeItem);
 
   return (
     <ScrollView style={styles.contenedor} contentContainerStyle={styles.contenido}>
@@ -39,17 +47,17 @@ export function DetailScreen(): React.JSX.Element {
               {mueble.enStock ? 'En stock' : 'Agotado'}
             </Text>
 
+            {/* Guarda o quita el mueble del store */}
             <Pressable
-              disabled={!mueble.enStock}
-              onPress={() => Alert.alert('Carrito', `Agregaste: ${mueble.nombre}`)}
+              onPress={() => (guardado ? removeItem(mueble.id) : addItem(mueble))}
               style={({ pressed }) => [
                 styles.boton,
+                guardado && styles.botonGuardado,
                 pressed && styles.botonPresionado,
-                !mueble.enStock && styles.botonAgotado,
               ]}
             >
-              <Text style={styles.botonTexto}>
-                {mueble.enStock ? 'Agregar al carrito' : 'Agotado'}
+              <Text style={[styles.botonTexto, guardado && styles.botonTextoGuardado]}>
+                {guardado ? 'Quitar de guardados' : 'Guardar'}
               </Text>
             </Pressable>
           </>
@@ -126,15 +134,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: SPACING.xl,
   },
-  botonPresionado: {
-    backgroundColor: COLORS.accentPressed,
+  botonGuardado: {
+    backgroundColor: COLORS.accentSoft, // ya guardado: se ve suave
   },
-  botonAgotado: {
-    backgroundColor: COLORS.disabled,
+  botonPresionado: {
+    opacity: 0.8, // baja un poco al presionar
   },
   botonTexto: {
     color: COLORS.textLight,
     fontSize: TYPOGRAPHY.size.base,
     fontWeight: TYPOGRAPHY.weight.semibold,
+  },
+  botonTextoGuardado: {
+    color: COLORS.accent,
   },
 });
