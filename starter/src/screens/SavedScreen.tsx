@@ -80,7 +80,7 @@ export function SavedScreen(): React.JSX.Element {
               <Text style={styles.limpiarTexto}>Limpiar todo</Text>
             </Pressable>
           </View>
-        ) : null
+        ) : undefined
       }
       ListEmptyComponent={
         <View style={styles.vacio}>
