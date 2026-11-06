@@ -19,10 +19,10 @@ export type HomeStackParamList = {
 // Pestañas de abajo
 export type RootTabParamList = {
   Home: NavigatorScreenParams<HomeStackParamList>; // dentro va el stack
-  Favorites: undefined;
+  Saved: undefined; // muebles guardados (viene del store)
 };
 
 // Tipos listos para usar en cada pantalla (props de navigation y route)
 export type HomeListProps = NativeStackScreenProps<HomeStackParamList, 'HomeList'>;
 export type HomeDetailProps = NativeStackScreenProps<HomeStackParamList, 'HomeDetail'>;
-export type FavoritesProps = BottomTabScreenProps<RootTabParamList, 'Favorites'>;
+export type SavedProps = BottomTabScreenProps<RootTabParamList, 'Saved'>;

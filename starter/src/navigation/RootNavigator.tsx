@@ -5,8 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { DetailScreen } from '../screens/DetailScreen';
-import { FavoritesScreen } from '../screens/FavoritesScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { SavedScreen } from '../screens/SavedScreen';
+import { useSavedStore } from '../stores/savedStore';
 import { COLORS, TYPOGRAPHY } from '../theme';
 import { HomeStackParamList, RootTabParamList } from './types';
 
@@ -16,7 +17,7 @@ const Stack = createNativeStackNavigator<HomeStackParamList>();
 // Ícono de cada pestaña
 const ICONOS: Record<keyof RootTabParamList, keyof typeof Ionicons.glyphMap> = {
   Home: 'home-outline',
-  Favorites: 'heart-outline',
+  Saved: 'bookmark-outline',
 };
 
 // Stack de la pestaña Catálogo: lista -> detalle
@@ -45,6 +46,9 @@ function HomeStack(): React.JSX.Element {
 }
 
 export function RootNavigator(): React.JSX.Element {
+  // Cantidad de guardados: el selector hace que el badge se actualice en tiempo real
+  const cantidadGuardados = useSavedStore((state) => state.items.length);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -64,10 +68,14 @@ export function RootNavigator(): React.JSX.Element {
         component={HomeStack}
         options={{ title: 'Catálogo', headerShown: false }}
       />
+      {/* El badge muestra cuántos muebles hay guardados (y se oculta si es 0) */}
       <Tab.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{ title: 'Favoritos' }}
+        name="Saved"
+        component={SavedScreen}
+        options={{
+          title: 'Guardados',
+          tabBarBadge: cantidadGuardados > 0 ? cantidadGuardados : undefined,
+        }}
       />
     </Tab.Navigator>
   );
