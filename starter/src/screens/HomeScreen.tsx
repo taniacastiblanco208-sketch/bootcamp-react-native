@@ -15,6 +15,7 @@ import { ItemCard } from '../components/ItemCard';
 import { MUEBLES } from '../data/mockData';
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 import { HomeListProps } from '../navigation/types';
+import { useSavedStore } from '../stores/savedStore';
 import { Mueble } from '../types';
 
 // Quita tildes y pasa a minúsculas: "Sofá" y "sofa" se consideran iguales
@@ -34,6 +35,9 @@ function Separador(): React.JSX.Element {
 
 // navigation viene del stack y sirve para ir al detalle
 export function HomeScreen({ navigation }: HomeListProps): React.JSX.Element {
+  // Cuántos muebles hay guardados (para mostrarlo en el encabezado)
+  const cantidadGuardados = useSavedStore((state) => state.items.length);
+
   // Texto que la persona escribe en el buscador
   const [busqueda, setBusqueda] = useState<string>('');
 
@@ -81,7 +85,7 @@ export function HomeScreen({ navigation }: HomeListProps): React.JSX.Element {
       <View style={styles.header}>
         <Text style={styles.titulo}>Tienda de Muebles</Text>
         <Text style={styles.subtitulo}>
-          Catálogo · {mueblesFiltrados.length} de {MUEBLES.length} muebles
+          Catálogo · {mueblesFiltrados.length} de {MUEBLES.length} muebles · {cantidadGuardados} guardados
         </Text>
 
         {/* Buscador */}

@@ -25,3 +25,4 @@ pnpm typecheck
 | week-01 | Core Components y Flexbox: catálogo de tarjetas |
 | week-02 | Listas, Inputs y Estilos: FlatList, búsqueda en vivo y tema |
 | week-03 | React Navigation 7: pestañas, stack anidado, detalle con params y favoritos |
+| week-04 | Estado global con Zustand: guardados compartidos, badge en tiempo real |
