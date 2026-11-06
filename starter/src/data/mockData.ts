@@ -31,7 +31,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Sala',
     material: 'Cuero sintético',
     precio: 1250000,
-    imagen: IMAGEN.Sala,
+    imagen: 'https://mueblesalbura.com.co/wp-content/uploads/2021/02/silla-reclinable-abierta.jpg',
     enStock: true,
   },
   {
@@ -40,7 +40,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Sala',
     material: 'Vidrio y metal',
     precio: 560000,
-    imagen: IMAGEN.Sala,
+    imagen: 'https://m.media-amazon.com/images/I/81YMS19yR0L._AC_UF894,1000_QL80_.jpg',
     enStock: true,
   },
   // ---- Comedor ----
@@ -59,7 +59,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Comedor',
     material: 'Madera y tela',
     precio: 3200000,
-    imagen: IMAGEN.Comedor,
+    imagen: 'https://alfagresalfa.vtexassets.com/arquivos/ids/395997/IMG01.jpg?v=638933413341430000',
     enStock: true,
   },
   {
@@ -68,7 +68,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Comedor',
     material: 'Madera y tela',
     precio: 320000,
-    imagen: IMAGEN.Comedor,
+    imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd_viTbvHwoSETkLchx9N2d_oRmugioHwDSBJOuOyWXQ&s=10',
     enStock: false,
   },
   // ---- Dormitorio ----
@@ -87,7 +87,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Dormitorio',
     material: 'Madera maciza',
     precio: 2100000,
-    imagen: IMAGEN.Dormitorio,
+    imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW2j59duogJbBoCkJGZ7NMZmIHsHy-88kBx7aLXAXfs94XvhZWjNXQ5pyl&s=10',
     enStock: true,
   },
   {
@@ -96,7 +96,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Dormitorio',
     material: 'MDF',
     precio: 1450000,
-    imagen: IMAGEN.Dormitorio,
+    imagen: 'https://http2.mlstatic.com/D_NQ_NP_807181-MCO93329328532_092025-O.webp',
     enStock: true,
   },
   {
@@ -105,7 +105,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Dormitorio',
     material: 'Madera con 2 cajones',
     precio: 280000,
-    imagen: IMAGEN.Dormitorio,
+    imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzGwRx-5BsBwA9L12rlH-g7vBOI1daBzc0dj-TwwlNXOLmBdJQRbW3ZUY&s=10',
     enStock: true,
   },
   // ---- Oficina ----
@@ -124,7 +124,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Oficina',
     material: 'Malla y acero',
     precio: 690000,
-    imagen: IMAGEN.Oficina,
+    imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-WAuZcVbC-BJoGvakm3DKrLQj5KG3RHrFnNWsBFg7wZMDSM23u-JAB8A&s=10',
     enStock: true,
   },
   {
@@ -133,7 +133,7 @@ export const MUEBLES: Mueble[] = [
     categoria: 'Oficina',
     material: 'Madera',
     precio: 540000,
-    imagen: IMAGEN.Oficina,
+    imagen: 'https://http2.mlstatic.com/D_Q_NP_2X_748085-MLA99413598784_112025-P.webp',
     enStock: true,
   },
 ];
