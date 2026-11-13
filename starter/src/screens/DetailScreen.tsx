@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Pressable,
   ScrollView,
@@ -9,7 +10,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useDeleteMueble } from '../hooks/useDeleteMueble';
 import { useMueble } from '../hooks/useMuebles';
 import { HomeStackParamList } from '../navigation/types';
 import { mensajeDeError } from '../services/api';
@@ -33,6 +35,29 @@ export function DetailScreen(): React.JSX.Element {
   );
   const addItem = useSavedStore((state) => state.addItem);
   const removeItem = useSavedStore((state) => state.removeItem);
+
+  // Navegación (para volver a la lista) y mutación para eliminar
+  const navigation = useNavigation();
+  const eliminar = useDeleteMueble();
+
+  // Pide confirmación y, si acepta, elimina el mueble en la API
+  const confirmarEliminar = (id: string, nombre: string): void => {
+    Alert.alert('Eliminar mueble', `¿Seguro que quieres eliminar "${nombre}"?`, [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Eliminar',
+        style: 'destructive',
+        onPress: () =>
+          eliminar.mutate(id, {
+            onSuccess: () => {
+              removeItem(id); // si estaba en guardados, también lo quitamos
+              navigation.goBack(); // volvemos a la lista
+            },
+            onError: (error) => Alert.alert('No se pudo eliminar', mensajeDeError(error)),
+          }),
+      },
+    ]);
+  };
 
   // Cargando
   if (isLoading) {
@@ -113,6 +138,19 @@ export function DetailScreen(): React.JSX.Element {
           <Text style={[styles.botonTexto, guardado && styles.botonTextoGuardado]}>
             {guardado ? 'Quitar de guardados' : 'Guardar'}
           </Text>
+        </Pressable>
+
+        {/* Elimina el mueble (DELETE con useMutation) */}
+        <Pressable
+          disabled={eliminar.isPending}
+          onPress={() => confirmarEliminar(mueble.id, mueble.nombre)}
+          style={({ pressed }) => [styles.botonEliminar, pressed && styles.botonPresionado]}
+        >
+          {eliminar.isPending ? (
+            <ActivityIndicator color={COLORS.error} />
+          ) : (
+            <Text style={styles.botonEliminarTexto}>Eliminar mueble</Text>
+          )}
         </Pressable>
       </View>
     </ScrollView>
@@ -214,5 +252,18 @@ const styles = StyleSheet.create({
   },
   botonTextoGuardado: {
     color: COLORS.accent,
+  },
+  botonEliminar: {
+    borderWidth: 1,
+    borderColor: COLORS.error,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.sm,
+    alignItems: 'center',
+    marginTop: SPACING.md,
+  },
+  botonEliminarTexto: {
+    color: COLORS.error,
+    fontSize: TYPOGRAPHY.size.base,
+    fontWeight: TYPOGRAPHY.weight.semibold,
   },
 });
