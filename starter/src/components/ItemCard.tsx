@@ -50,7 +50,7 @@ export function ItemCard({ mueble, onPress }: ItemCardProps): React.JSX.Element 
         </View>
 
         <Text style={styles.nombre}>{mueble.nombre}</Text>
-        <Text style={styles.material}>{mueble.material}</Text>
+        <Text style={styles.material}>{mueble.marca ?? mueble.material ?? ''}</Text>
 
         {/* Precio a la izquierda, botón a la derecha */}
         <View style={styles.fila}>
