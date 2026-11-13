@@ -14,6 +14,7 @@ export type HomeStackParamList = {
     categoria: CategoriaMueble;
     precio: number;
   };
+  HomeCreate: undefined; // formulario para crear un mueble
 };
 
 // Pestañas de abajo
@@ -24,5 +25,6 @@ export type RootTabParamList = {
 
 // Tipos listos para usar en cada pantalla (props de navigation y route)
 export type HomeListProps = NativeStackScreenProps<HomeStackParamList, 'HomeList'>;
+export type HomeCreateProps = NativeStackScreenProps<HomeStackParamList, 'HomeCreate'>;
 export type HomeDetailProps = NativeStackScreenProps<HomeStackParamList, 'HomeDetail'>;
 export type SavedProps = BottomTabScreenProps<RootTabParamList, 'Saved'>;
