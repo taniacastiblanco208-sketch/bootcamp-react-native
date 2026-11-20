@@ -4,6 +4,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
+import { CreateScreen } from '../screens/CreateScreen';
 import { DetailScreen } from '../screens/DetailScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { SavedScreen } from '../screens/SavedScreen';
@@ -40,6 +41,12 @@ function HomeStack(): React.JSX.Element {
         name="HomeDetail"
         component={DetailScreen}
         options={({ route }) => ({ title: route.params.name })}
+      />
+      {/* Formulario para crear un mueble */}
+      <Stack.Screen
+        name="HomeCreate"
+        component={CreateScreen}
+        options={{ title: 'Nuevo mueble' }}
       />
     </Stack.Navigator>
   );
